@@ -72,7 +72,7 @@ const markup = images
   .map(
     ({ preview, description, original }) => `
     <li class="gallery-item">
-      <a class="gallery-link" href="">
+      <a class="gallery-link" href="${original}">
         <img
           class="gallery-image"
           src="${preview}"
@@ -89,14 +89,15 @@ gallery.insertAdjacentHTML("afterbegin", markup);
 //add listener to links in gallery
 gallery.addEventListener("click", (event) => {
   event.preventDefault();
-  const target = event.target.closest(".gallery-link");
-  if (!target) return;
+  const target = event.target;
+  // console.log(target);
+  if (!target.classList.contains("gallery-image")) {
+    return;
+  }
 
   //Image for modal
   const modal = basicLightbox.create(`
-    <img src="${target.querySelector("img").dataset.source}" alt="${
-    target.querySelector("img").alt
-  }"/>
+    <img src="${target.dataset.source}" alt="${target.alt}"/>
 `);
   //   Show the modal
   modal.show();
